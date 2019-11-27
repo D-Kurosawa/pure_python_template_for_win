@@ -1,0 +1,27 @@
+{
+  "set": {
+    "cpu": "mid"
+  },
+  "load": {
+    "DRM": {
+      "part1": {
+        "path": "../../D001_Decompress_DRM/SJIS/その1SJIS",
+        "pattern": "*.txt"
+      },
+      "part2": {
+        "path": "../../D001_Decompress_DRM/SJIS/その2SJIS",
+        "pattern": "*.txt"
+      },
+      "part3": {
+        "path": "../../D001_Decompress_DRM/SJIS/その3SJIS",
+        "pattern": "*.txt"
+      }
+    }
+  },
+  "save": {
+    "DRM_info": {
+      "path": "../P001_OUTPUT",
+      "file": "DRM_record_ID_info.tsv"
+    }
+  }
+}
