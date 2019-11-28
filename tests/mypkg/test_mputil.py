@@ -29,5 +29,17 @@ def test_mpcpu_exceptions():
     #     mputil.MpCPU([1, 2]).get()
 
 
+def test_mpcounter():
+    num = 100
+
+    for _ in range(num):
+        mputil.MpCounter()
+
+    assert mputil.MpCounter().num == num + 1
+
+    mputil.MpCounter().count_reset()
+    assert mputil.MpCounter().num == 1
+
+
 if __name__ == '__main__':
     pytest.main()
