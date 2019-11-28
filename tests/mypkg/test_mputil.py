@@ -41,5 +41,17 @@ def test_mpcounter():
     assert mputil.MpCounter().num == 1
 
 
+def test_mplines(capsys):
+    obj = mputil.MpLines()
+
+    obj.top()
+    out, err = capsys.readouterr()
+    assert out == f"\n{'*' * 60}\n<Multi process Start>\n{'*' * 60}\n"
+
+    obj.bottom()
+    out, err = capsys.readouterr()
+    assert out == f"{'*' * 60}\n<Multi process End>\n{'*' * 60}\n\n"
+
+
 if __name__ == '__main__':
     pytest.main()
