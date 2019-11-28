@@ -3,25 +3,47 @@
     "cpu": "mid"
   },
   "load": {
-    "DRM": {
-      "part1": {
-        "path": "../../D001_Decompress_DRM/SJIS/その1SJIS",
-        "pattern": "*.txt"
+    "foo": {
+      "foo_A": {
+        "path": "./conf",
+        "file": "config.json"
       },
-      "part2": {
-        "path": "../../D001_Decompress_DRM/SJIS/その2SJIS",
-        "pattern": "*.txt"
+      "foo_B": {
+        "path": "./docs",
+        "pattern": "requirements*.txt"
+      }
+    },
+    "bar": {
+      "bar_A": {
+        "path": "./src",
+        "file": "conf.py"
       },
-      "part3": {
-        "path": "../../D001_Decompress_DRM/SJIS/その3SJIS",
-        "pattern": "*.txt"
+      "bar_B": {
+        "path": "./src/mypkg",
+        "pattern": "*.py"
       }
     }
   },
   "save": {
-    "DRM_info": {
-      "path": "../P001_OUTPUT",
-      "file": "DRM_record_ID_info.tsv"
+    "foo": {
+      "foo_A": {
+        "path": "./conf",
+        "file": "foo_A.json"
+      },
+      "foo_B": {
+        "path": "./conf",
+        "base_name": "foo_B_{BASE_NAME}.json"
+      }
+    },
+    "bar": {
+      "bar_A": {
+        "path": "./docs",
+        "file": "bar_A.txt"
+      },
+      "bar_B": {
+        "path": "./docs",
+        "base_name": "bar_B_{BASE_NAME}.txt"
+      }
     }
   }
 }
