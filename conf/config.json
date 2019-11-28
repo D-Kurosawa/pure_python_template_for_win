@@ -10,16 +10,16 @@
       },
       "foo_B": {
         "path": "./docs",
-        "pattern": "requirements*.txt"
+        "pattern": "*.md"
       }
     },
     "bar": {
       "bar_A": {
-        "path": "./src",
+        "path": "./project_name",
         "file": "conf.py"
       },
       "bar_B": {
-        "path": "./src/mypkg",
+        "path": "./project_name/mypkg",
         "pattern": "*.py"
       }
     }
