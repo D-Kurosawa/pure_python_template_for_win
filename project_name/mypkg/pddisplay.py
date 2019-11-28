@@ -26,26 +26,4 @@ class PandasDisplay:
 
 
 if __name__ == '__main__':
-    import inspect
-
-
-    def _main():
-        print('-' * 80)
-        print(f">> pandas {pd.__version__}")
-        print(f"\nDisplay Options")
-
-        obj = pd.options.display
-        default = inspect.getmembers(obj, inspect.ismethod(obj))
-
-        PandasDisplay.custom()
-
-        custom = inspect.getmembers(obj, inspect.ismethod(obj))
-
-        for d, c in zip(default, custom):
-            if d[1] != c[1]:
-                print(f">> display.{d[0]}")
-                print(f"\t\t Default : {d[1]}")
-                print(f"\t\t Custom  : {c[1]}")
-
-
-    _main()
+    pass
