@@ -1,6 +1,8 @@
 """Load application configure file"""
 import json
 import sys
+from abc import ABCMeta
+from abc import abstractmethod
 from pathlib import Path
 
 from .mypkg import mputil
@@ -43,9 +45,25 @@ class ConfigLoader:
                     yield key + ' -> ' + child_key, child_val
 
 
-class AppSettings:
+class _ConfMeta(metaclass=ABCMeta):
     """
     :type _dic: dict
+    """
+
+    def __init__(self, dic=None):
+        """
+        :type dic: dict | None
+        """
+        if dic is not None:
+            self._dic = dic
+
+    @abstractmethod
+    def set(self):
+        pass
+
+
+class AppSettings(_ConfMeta):
+    """
     :type cpu: int
     """
 
@@ -53,17 +71,14 @@ class AppSettings:
         """
         :type dic: dict
         """
-        self._dic = dic
+        super().__init__(dic)
         self.cpu = 1
 
     def set(self):
-        self._set_info_of_number_of_usage_cpu()
-
-    def _set_info_of_number_of_usage_cpu(self):
         self.cpu = mputil.MpCPU(self._dic['cpu']).get()
 
 
-class AppLoadings:
+class AppLoadings(_ConfMeta):
     """
     :type foo: LoadingFooInfoSetter
     :type bar: LoadingBarInfoSetter
@@ -73,17 +88,17 @@ class AppLoadings:
         """
         :type dic: dict
         """
-        self.foo = LoadingFooInfoSetter(dic['foo'])
-        self.bar = LoadingBarInfoSetter(dic['bar'])
+        super().__init__()
+        self.foo = LoadFooInfo(dic['foo'])
+        self.bar = LoadBarInfo(dic['bar'])
 
     def set(self):
         self.foo.set()
         self.bar.set()
 
 
-class LoadingFooInfoSetter:
+class LoadFooInfo(_ConfMeta):
     """
-    :type _dic: dict
     :type foo_a: Path
     :type foo_b: list[Path]
     """
@@ -92,24 +107,17 @@ class LoadingFooInfoSetter:
         """
         :type dic: dict
         """
-        self._dic = dic
+        super().__init__(dic)
         self.foo_a = Path()
         self.foo_b = list()
 
     def set(self):
-        self._set_info_of_foo_a_file()
-        self._set_info_of_foo_b_files()
-
-    def _set_info_of_foo_a_file(self):
         self.foo_a = FileMaker.load(self._dic['foo_A'])
-
-    def _set_info_of_foo_b_files(self):
         self.foo_b = FileMaker.find(self._dic['foo_B'])
 
 
-class LoadingBarInfoSetter:
+class LoadBarInfo(_ConfMeta):
     """
-    :type _dic: dict
     :type bar_a: Path
     :type bar_b: list[Path]
     """
@@ -118,43 +126,36 @@ class LoadingBarInfoSetter:
         """
         :type dic: dict
         """
-        self._dic = dic
+        super().__init__(dic)
         self.bar_a = Path()
         self.bar_b = list()
 
     def set(self):
-        self._set_info_of_bar_a_file()
-        self._set_info_of_bar_b_files()
-
-    def _set_info_of_bar_a_file(self):
         self.bar_a = FileMaker.load(self._dic['bar_A'])
-
-    def _set_info_of_bar_b_files(self):
         self.bar_b = FileMaker.find(self._dic['bar_B'])
 
 
-class AppSavings:
+class AppSavings(_ConfMeta):
     """
-    :type foo: SavingFooInfoSetter
-    :type bar: SavingBarInfoSetter
+    :type foo: SaveFooInfo
+    :type bar: SaveBarInfo
     """
 
     def __init__(self, dic):
         """
         :type dic: dict
         """
-        self._dic = dic
-        self.foo = SavingFooInfoSetter(dic['foo'])
-        self.bar = SavingBarInfoSetter(dic['bar'])
+        super().__init__()
+        self.foo = SaveFooInfo(dic['foo'])
+        self.bar = SaveBarInfo(dic['bar'])
 
     def set(self):
         self.foo.set()
         self.bar.set()
 
 
-class SavingFooInfoSetter:
+class SaveFooInfo(_ConfMeta):
     """
-    :type _dic: dict
     :type foo_a: Path
     :type foo_b: Path
     """
@@ -163,24 +164,17 @@ class SavingFooInfoSetter:
         """
         :type dic: dict
         """
-        self._dic = dic
+        super().__init__(dic)
         self.foo_a = Path()
         self.foo_b = Path()
 
     def set(self):
-        self._set_info_of_foo_a_file()
-        self._set_info_of_foo_b_base_file()
-
-    def _set_info_of_foo_a_file(self):
         self.foo_a = FileMaker.save(self._dic['foo_A'])
-
-    def _set_info_of_foo_b_base_file(self):
         self.foo_b = FileMaker.base(self._dic['foo_B'])
 
 
-class SavingBarInfoSetter:
+class SaveBarInfo(_ConfMeta):
     """
-    :type _dic: dict
     :type bar_a: Path
     :type bar_b: Path
     """
@@ -189,18 +183,12 @@ class SavingBarInfoSetter:
         """
         :type dic: dict
         """
-        self._dic = dic
+        super().__init__(dic)
         self.bar_a = Path()
         self.bar_b = Path()
 
     def set(self):
-        self._set_info_of_bar_a_file()
-        self._set_info_of_bar_b_base_file()
-
-    def _set_info_of_bar_a_file(self):
         self.bar_a = FileMaker.save(self._dic['bar_A'])
-
-    def _set_info_of_bar_b_base_file(self):
         self.bar_b = FileMaker.base(self._dic['bar_B'])
 
 
