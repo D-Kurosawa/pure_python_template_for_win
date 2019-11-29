@@ -101,10 +101,10 @@ class LoadingFooInfoSetter:
         self._set_info_of_foo_b_files()
 
     def _set_info_of_foo_a_file(self):
-        self.foo_a = _make_load_file(self._dic['foo_A'])
+        self.foo_a = FileMaker.load(self._dic['foo_A'])
 
     def _set_info_of_foo_b_files(self):
-        self.foo_b = _find_load_files(self._dic['foo_B'])
+        self.foo_b = FileMaker.find(self._dic['foo_B'])
 
 
 class LoadingBarInfoSetter:
@@ -127,10 +127,10 @@ class LoadingBarInfoSetter:
         self._set_info_of_bar_b_files()
 
     def _set_info_of_bar_a_file(self):
-        self.bar_a = _make_load_file(self._dic['bar_A'])
+        self.bar_a = FileMaker.load(self._dic['bar_A'])
 
     def _set_info_of_bar_b_files(self):
-        self.bar_b = _find_load_files(self._dic['bar_B'])
+        self.bar_b = FileMaker.find(self._dic['bar_B'])
 
 
 class AppSavings:
@@ -172,10 +172,10 @@ class SavingFooInfoSetter:
         self._set_info_of_foo_b_base_file()
 
     def _set_info_of_foo_a_file(self):
-        self.foo_a = _make_save_file(self._dic['foo_A'])
+        self.foo_a = FileMaker.save(self._dic['foo_A'])
 
     def _set_info_of_foo_b_base_file(self):
-        self.foo_b = _make_base_file(self._dic['foo_B'])
+        self.foo_b = FileMaker.base(self._dic['foo_B'])
 
 
 class SavingBarInfoSetter:
@@ -198,13 +198,14 @@ class SavingBarInfoSetter:
         self._set_info_of_bar_b_base_file()
 
     def _set_info_of_bar_a_file(self):
-        self.bar_a = _make_save_file(self._dic['bar_A'])
+        self.bar_a = FileMaker.save(self._dic['bar_A'])
 
     def _set_info_of_bar_b_base_file(self):
-        self.bar_b = _make_base_file(self._dic['bar_B'])
+        self.bar_b = FileMaker.base(self._dic['bar_B'])
 
 
 class JsonCmdLineArg:
+
     @staticmethod
     def _get_cmd_line_arg():
         """
@@ -227,62 +228,82 @@ class JsonCmdLineArg:
             return json.load(j)
 
 
-def _exists_path(path):
-    """
-    :type path: str
-    :rtype: Path
-    """
-    p = Path(path)
-    if not p.exists():
-        raise FileNotFoundError(path)
+class FileMaker:
 
-    return p
+    @staticmethod
+    def _has_key(dic, *args):
+        """
+        :type dic: dict
+        """
+        for arg in args:
+            if arg not in dic:
+                raise KeyError(f"Not in key : {arg}")
 
+    @staticmethod
+    def _exists_path(path):
+        """
+        :type path: str
+        :rtype: Path
+        """
+        p = Path(path)
+        if not p.exists():
+            raise FileNotFoundError(path)
 
-def _make_load_file(dic):
-    """
-    :type dic: dict
-    :rtype: Path
-    """
-    p = _exists_path(dic['path'])
-    file = p / dic['file']
+        return p
 
-    if not file.exists():
-        raise FileNotFoundError(dic['file'])
+    @classmethod
+    def load(cls, dic):
+        """
+        :type dic: dict
+        :rtype: Path
+        """
+        cls._has_key(dic, 'path', 'file')
 
-    return file
+        p = cls._exists_path(dic['path'])
+        file = p / dic['file']
 
+        if not file.exists():
+            raise FileNotFoundError(dic['file'])
 
-def _make_save_file(dic):
-    """
-    :type dic: dict
-    :rtype: Path
-    """
-    p = _exists_path(dic['path'])
-    return p / dic['file']
+        return file
 
+    @classmethod
+    def find(cls, dic):
+        """
+        :type dic: dict
+        :rtype: list[Path]
+        """
+        cls._has_key(dic, 'path', 'pattern')
 
-def _make_base_file(dic):
-    """
-    :type dic: dict
-    :rtype: Path
-    """
-    p = _exists_path(dic['path'])
-    return p / dic['base_name']
+        p = cls._exists_path(dic['path'])
+        files = [f for f in p.glob(f"**/{dic['pattern']}")]
 
+        if not files:
+            raise FileNotFoundError(files)
 
-def _find_load_files(dic):
-    """
-    :type dic: dict
-    :rtype: list[Path]
-    """
-    p = _exists_path(dic['path'])
-    files = [f for f in p.glob(f"**/{dic['pattern']}")]
+        return files
 
-    if not files:
-        raise FileNotFoundError(files)
+    @classmethod
+    def save(cls, dic):
+        """
+        :type dic: dict
+        :rtype: Path
+        """
+        cls._has_key(dic, 'path', 'file')
 
-    return files
+        p = cls._exists_path(dic['path'])
+        return p / dic['file']
+
+    @classmethod
+    def base(cls, dic):
+        """
+        :type dic: dict
+        :rtype: Path
+        """
+        cls._has_key(dic, 'path', 'base_name')
+
+        p = cls._exists_path(dic['path'])
+        return p / dic['base_name']
 
 
 if __name__ == '__main__':
