@@ -24,6 +24,24 @@ class ConfigLoader:
         self.loads.set()
         self.saves.set()
 
+    def walk(self):
+        for key, val in self._walk_generator(self.__dict__):
+            print(f"{key:<40}: {val}")
+
+    def _walk_generator(self, dic):
+        """
+        :type dic: dict
+        """
+        for key, val in dic.items():
+            yield key, val
+            try:
+                nest_value = val.__dict__  # type: dict
+            except AttributeError:
+                pass
+            else:
+                for child_key, child_val in self._walk_generator(nest_value):
+                    yield key + ' -> ' + child_key, child_val
+
 
 class ConfSettingItemSetter:
     """
@@ -263,24 +281,7 @@ if __name__ == '__main__':
     def _main():
         conf = ConfigLoader()
         conf.load()
-
-        for key, val in dict_walk(conf.__dict__):
-            print(f"{key:<40}: {val}")
-
-
-    def dict_walk(dic):
-        """
-        :type dic:
-        """
-        for key, val in dic.items():
-            yield key, val
-            try:
-                nest_value = val.__dict__  # type: dict
-            except AttributeError:
-                pass
-            else:
-                for child_key, child_val in dict_walk(nest_value):
-                    yield key + ' -> ' + child_key, child_val
+        conf.walk()
 
 
     _main()
