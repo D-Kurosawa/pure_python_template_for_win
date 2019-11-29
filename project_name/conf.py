@@ -8,14 +8,14 @@ from .mypkg import mputil
 
 class ConfigLoader:
     """
-    :type setting: ConfSettingItemSetter
+    :type setting: AppSettings
     :type loads: ConfLoadFilesSetter
     :type saves: ConfSaveFilesSetter
     """
 
     def __init__(self):
         conf = _load_json_config()
-        self.setting = ConfSettingItemSetter(conf['set'])
+        self.setting = AppSettings(conf['set'])
         self.loads = ConfLoadFilesSetter(conf['load'])
         self.saves = ConfSaveFilesSetter(conf['save'])
 
@@ -43,7 +43,7 @@ class ConfigLoader:
                     yield key + ' -> ' + child_key, child_val
 
 
-class ConfSettingItemSetter:
+class AppSettings:
     """
     :type _dic: dict
     :type cpu: int
