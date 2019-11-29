@@ -10,14 +10,14 @@ class ConfigLoader:
     """
     :type setting: AppSettings
     :type loads: AppLoadings
-    :type saves: ConfSaveFilesSetter
+    :type saves: AppSavings
     """
 
     def __init__(self):
         conf = _load_json_config()
         self.setting = AppSettings(conf['set'])
         self.loads = AppLoadings(conf['load'])
-        self.saves = ConfSaveFilesSetter(conf['save'])
+        self.saves = AppSavings(conf['save'])
 
     def load(self):
         self.setting.set()
@@ -133,7 +133,7 @@ class LoadingBarInfoSetter:
         self.bar_b = _find_load_files(self._dic['bar_B'])
 
 
-class ConfSaveFilesSetter:
+class AppSavings:
     """
     :type foo: SavingFooInfoSetter
     :type bar: SavingBarInfoSetter
