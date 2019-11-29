@@ -9,14 +9,14 @@ from .mypkg import mputil
 class ConfigLoader:
     """
     :type setting: AppSettings
-    :type loads: ConfLoadFilesSetter
+    :type loads: AppLoadings
     :type saves: ConfSaveFilesSetter
     """
 
     def __init__(self):
         conf = _load_json_config()
         self.setting = AppSettings(conf['set'])
-        self.loads = ConfLoadFilesSetter(conf['load'])
+        self.loads = AppLoadings(conf['load'])
         self.saves = ConfSaveFilesSetter(conf['save'])
 
     def load(self):
@@ -63,7 +63,7 @@ class AppSettings:
         self.cpu = mputil.MpCPU(self._dic['cpu']).get()
 
 
-class ConfLoadFilesSetter:
+class AppLoadings:
     """
     :type foo: LoadingFooInfoSetter
     :type bar: LoadingBarInfoSetter
