@@ -14,7 +14,7 @@ class ConfigLoader:
     """
 
     def __init__(self):
-        conf = _load_json_config()
+        conf = JsonCmdLineArg.load()
         self.setting = AppSettings(conf['set'])
         self.loads = AppLoadings(conf['load'])
         self.saves = AppSavings(conf['save'])
@@ -204,19 +204,27 @@ class SavingBarInfoSetter:
         self.bar_b = _make_base_file(self._dic['bar_B'])
 
 
-def _load_json_config():
-    """
-    :rtype: dict
-    """
-    try:
-        arg = sys.argv[1]
-    except IndexError:
-        raise IndexError('Not found command line arguments')
-    except Exception:
-        raise Exception
+class JsonCmdLineArg:
+    @staticmethod
+    def _get_cmd_line_arg():
+        """
+        :rtype: str
+        """
+        try:
+            arg = sys.argv[1]
+        except IndexError:
+            raise IndexError('Not found command line arguments')
+        except Exception:
+            raise Exception
+        return arg
 
-    with open(arg, 'r', encoding='utf-8') as j:
-        return json.load(j)
+    @classmethod
+    def load(cls):
+        """
+        :rtype: dict
+        """
+        with open(cls._get_cmd_line_arg(), 'r', encoding='utf-8') as j:
+            return json.load(j)
 
 
 def _exists_path(path):
