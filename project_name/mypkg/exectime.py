@@ -15,7 +15,10 @@ def app_time(func):
         result = func(*args, **kwargs)
 
         e = time.time() - s
-        normal = relativedelta(seconds=e).normalized()
+        e1 = int(e)
+        e2 = int((e - e1) * 1000000)
+
+        normal = relativedelta(seconds=e1, microseconds=e2).normalized()
         print(f"\n{'=' * 80}")
         print(f"Elapsed Time : {e:.10f} [sec]")
         print(f"             : {normal.days} Day \t"
