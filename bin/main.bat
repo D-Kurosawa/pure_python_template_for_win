@@ -1,5 +1,5 @@
 @echo off
-set env_name=py38_env
+set env_name=python_env_name
 set project_name=project_name
 set execpath=%cd%
 
