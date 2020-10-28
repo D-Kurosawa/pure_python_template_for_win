@@ -16,6 +16,6 @@
 
 - [conda requirement](requirements_conda.txt)
 - [pip requirement](requirements_pip.txt)
-- python: 3.8.0 以上
+- python: 3.x.S0 以上
 
 バージョン指定のないものは適宜依存関係を満たすバージョン
