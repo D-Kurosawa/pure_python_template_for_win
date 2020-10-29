@@ -12,6 +12,6 @@ if %errorlevel% neq 0 (
 )
 echo on
 
-call conda list -e > requirements_conda.txt
-call pip list --format freeze > requirements_pip.txt
+call conda list -e            > ../../requirements/requirements_conda.txt
+call pip list --format freeze > ../../requirements/requirements_pip.txt
 call conda.bat deactivate
