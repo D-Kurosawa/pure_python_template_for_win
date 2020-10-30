@@ -1,5 +1,5 @@
-del /q .idea\dictionaries
-mkdir .idea\dictionaries
+del /q ..\..\.idea\dictionaries
+mkdir  ..\..\.idea\dictionaries
 
-@echo off
-del /f "%~dp0%~nx0"
+:: delete self
+:: rem del /f "%~dp0%~nx0"
