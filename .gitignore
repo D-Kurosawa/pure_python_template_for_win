@@ -127,3 +127,10 @@ dmypy.json
 
 # IDE
 .idea/
+
+# Igonore directory
+data/*
+!data/.gitkeep
+
+reports/*
+!reports/.gitkeep
