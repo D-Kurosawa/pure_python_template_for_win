@@ -11,7 +11,7 @@ def my_custom():
     obj = pd.options.display
     pddisplay.PandasDisplay.custom()
 
-    customs = inspect.getmembers(obj, inspect.ismethod(obj))
+    customs = inspect.getmembers(obj)
     return {cst[0]: cst[1] for cst in customs}
 
 
