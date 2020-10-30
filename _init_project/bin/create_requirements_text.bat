@@ -1,5 +1,5 @@
 @echo off
-set /p env_name="Input virtual enviroment name : "
+set /p env_name="Input virtual environment name : "
 echo on
 
 call conda.bat activate %env_name%
