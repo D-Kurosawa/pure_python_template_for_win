@@ -14,8 +14,8 @@
 
 ## 必要なパッケージ
 
-- [conda requirement](requirements_conda.txt)
-- [pip requirement](requirements_pip.txt)
-- python: 3.x.0 以上
+- [conda requirement](requirements/requirements_conda.txt)
+- [pip requirement](requirements/requirements_pip.txt)
+- python: 3.x.0以上
 
 バージョン指定のないものは適宜依存関係を満たすバージョン
