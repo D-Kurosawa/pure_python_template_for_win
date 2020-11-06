@@ -12,7 +12,7 @@ def my_data():
 
 
 def test_file_pickle(my_data):
-    file_name = 'dump.pkl'
+    file_name = "dump.pkl"
 
     with tempfile.TemporaryDirectory() as dir_name:
         file = Path(dir_name) / file_name
@@ -21,7 +21,7 @@ def test_file_pickle(my_data):
 
 
 def test_file_pickle_bz2(my_data):
-    file_name = 'dump.pkl.bz2'
+    file_name = "dump.pkl.bz2"
 
     with tempfile.TemporaryDirectory() as dir_name:
         file = Path(dir_name) / file_name
@@ -39,5 +39,5 @@ def test_loads_and_dumps_pickle_bz2(my_data):
     assert bz2pkl.loads(dumps) == my_data
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main()

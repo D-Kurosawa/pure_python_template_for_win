@@ -34,11 +34,11 @@ def load(file_name):
         raise FileNotFoundError(file_name)
 
     try:
-        with bz2.BZ2File(file_name, 'rb') as f:
+        with bz2.BZ2File(file_name, "rb") as f:
             pkl = f.read()
     except OSError:
         try:
-            with open(file_name, 'rb') as f:
+            with open(file_name, "rb") as f:
                 return pickle.load(f)
         except Exception:
             raise IOError(f"file <{file_name}> can not read to pickle object")
@@ -48,12 +48,12 @@ def load(file_name):
 
 def dump(obj, file_name, compress_level=1, compress=True):
     if compress:
-        with bz2.BZ2File(file_name, 'wb', compresslevel=compress_level) as f:
+        with bz2.BZ2File(file_name, "wb", compresslevel=compress_level) as f:
             f.write(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
     else:
-        with open(file_name, 'wb') as f:
+        with open(file_name, "wb") as f:
             pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass
