@@ -10,7 +10,7 @@ def app_time(func):
     def wrapper(*args, **kwargs):
         s = time.time()
         print(f"\n<{'-' * 78}>")
-        print(f'>>> Console Application Start\n')
+        print(f">>> Console Application Start\n")
 
         result = func(*args, **kwargs)
 
@@ -21,11 +21,13 @@ def app_time(func):
         normal = relativedelta(seconds=e1, microseconds=e2).normalized()
         print(f"\n{'=' * 80}")
         print(f"Elapsed Time : {e:.10f} [sec]")
-        print(f"             : {normal.days} Day \t"
-              f"{normal.hours:02}:{normal.minutes:02}:"
-              f"{normal.seconds:02}.{normal.microseconds}")
+        print(
+            f"             : {normal.days} Day \t"
+            f"{normal.hours:02}:{normal.minutes:02}:"
+            f"{normal.seconds:02}.{normal.microseconds}"
+        )
         print(f"{'=' * 80}")
-        print(f'\n>>> Console Application End')
+        print(f"\n>>> Console Application End")
         print(f"<{'-' * 78}>\n")
         return result
 
@@ -49,5 +51,5 @@ def func_time(func):
     return wrapper
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

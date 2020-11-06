@@ -18,8 +18,7 @@ class MpCPU:
         self._cpu = cpu
         self._max_cpu = os.cpu_count()
         self._min_cpu = 1
-        self._character_pattern = ('max', 'min', 'mid',
-                                   '1/4', '1/2', '3/4', 'auto')
+        self._character_pattern = ("max", "min", "mid", "1/4", "1/2", "3/4", "auto")
 
     def get(self):
         """
@@ -49,25 +48,25 @@ class MpCPU:
         if self._cpu.lower() not in self._character_pattern:
             raise KeyError(f"{self._cpu} not in {self._character_pattern}")
 
-        if self._cpu.lower() == 'max':
+        if self._cpu.lower() == "max":
             return self._max_cpu
 
-        if self._cpu.lower() == 'min':
+        if self._cpu.lower() == "min":
             return self._min_cpu
 
-        if self._cpu.lower() == 'mid':
+        if self._cpu.lower() == "mid":
             num = self._max_cpu // 2
             return self._get_cpu_number(num)
 
-        if self._cpu.lower() == '1/4':
+        if self._cpu.lower() == "1/4":
             num = self._max_cpu // 4
             return self._get_cpu_number(num)
 
-        if self._cpu.lower() == '1/2':
+        if self._cpu.lower() == "1/2":
             num = self._max_cpu // 2
             return self._get_cpu_number(num)
 
-        if self._cpu.lower() == '3/4':
+        if self._cpu.lower() == "3/4":
             num = self._max_cpu // 4
             num *= 3
             return self._get_cpu_number(num)
@@ -90,6 +89,7 @@ class MpCounter:
 
     :type num: int
     """
+
     _mp_count = 0
 
     def __init__(self):
@@ -121,7 +121,7 @@ class MpLines:
     def top(self):
         print(f"\n{'*' * 60}")
 
-        self._print_name(message='Start')
+        self._print_name(message="Start")
 
         if self._process is not None:
             print(f"  Process:{self._process:>5}")
@@ -134,7 +134,7 @@ class MpLines:
     def bottom(self):
         print(f"{'*' * 60}")
 
-        self._print_name(message='End')
+        self._print_name(message="End")
 
         print(f"{'*' * 60}\n")
 
@@ -148,5 +148,5 @@ class MpLines:
             print(f"<Multi process [{self._name}] {message}>")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass
