@@ -5,10 +5,10 @@ from .mypkg import exectime
 
 @exectime.app_time
 def main():
-    print('Load configure file')
+    print("Load configure file")
     conf = ConfigLoader()
     conf.load()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
