@@ -16,29 +16,29 @@ def my_custom():
 
 
 def test_min_rows(my_custom):
-    key = 'min_rows'
+    key = "min_rows"
     assert my_custom[key] == pddisplay.PandasDisplay.custom_dict[key]
 
 
 def test_max_rows(my_custom):
-    key = 'max_rows'
+    key = "max_rows"
     assert my_custom[key] == pddisplay.PandasDisplay.custom_dict[key]
 
 
 def test_max_columns(my_custom):
-    key = 'max_columns'
+    key = "max_columns"
     assert my_custom[key] == pddisplay.PandasDisplay.custom_dict[key]
 
 
 def test_width(my_custom):
-    key = 'width'
+    key = "width"
     assert my_custom[key] == pddisplay.PandasDisplay.custom_dict[key]
 
 
 def test_show_dimensions(my_custom):
-    key = 'show_dimensions'
+    key = "show_dimensions"
     assert my_custom[key] == pddisplay.PandasDisplay.custom_dict[key]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pytest.main()

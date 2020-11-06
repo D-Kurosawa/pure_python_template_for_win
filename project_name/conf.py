@@ -17,9 +17,9 @@ class ConfigLoader:
 
     def __init__(self):
         conf = JsonCmdLineArg.load()
-        self.setting = AppSettings(conf['set'])
-        self.loads = AppLoadings(conf['load'])
-        self.saves = AppSavings(conf['save'])
+        self.setting = AppSettings(conf["set"])
+        self.loads = AppLoadings(conf["load"])
+        self.saves = AppSavings(conf["save"])
 
     def load(self):
         self.setting.set()
@@ -42,7 +42,7 @@ class ConfigLoader:
                 pass
             else:
                 for child_key, child_val in self._walk_generator(nest_value):
-                    yield key + ' -> ' + child_key, child_val
+                    yield key + " -> " + child_key, child_val
 
 
 class _ConfMeta(metaclass=ABCMeta):
@@ -75,7 +75,7 @@ class AppSettings(_ConfMeta):
         self.cpu = 1
 
     def set(self):
-        self.cpu = mputil.MpCPU(self._dic['cpu']).get()
+        self.cpu = mputil.MpCPU(self._dic["cpu"]).get()
 
 
 class AppLoadings(_ConfMeta):
@@ -89,8 +89,8 @@ class AppLoadings(_ConfMeta):
         :type dic: dict
         """
         super().__init__()
-        self.foo = LoadFooInfo(dic['foo'])
-        self.bar = LoadBarInfo(dic['bar'])
+        self.foo = LoadFooInfo(dic["foo"])
+        self.bar = LoadBarInfo(dic["bar"])
 
     def set(self):
         self.foo.set()
@@ -112,8 +112,8 @@ class LoadFooInfo(_ConfMeta):
         self.foo_b = list()
 
     def set(self):
-        self.foo_a = FileMaker.load(self._dic['foo_A'])
-        self.foo_b = FileMaker.find(self._dic['foo_B'])
+        self.foo_a = FileMaker.load(self._dic["foo_A"])
+        self.foo_b = FileMaker.find(self._dic["foo_B"])
 
 
 class LoadBarInfo(_ConfMeta):
@@ -131,8 +131,8 @@ class LoadBarInfo(_ConfMeta):
         self.bar_b = list()
 
     def set(self):
-        self.bar_a = FileMaker.load(self._dic['bar_A'])
-        self.bar_b = FileMaker.find(self._dic['bar_B'])
+        self.bar_a = FileMaker.load(self._dic["bar_A"])
+        self.bar_b = FileMaker.find(self._dic["bar_B"])
 
 
 class AppSavings(_ConfMeta):
@@ -146,8 +146,8 @@ class AppSavings(_ConfMeta):
         :type dic: dict
         """
         super().__init__()
-        self.foo = SaveFooInfo(dic['foo'])
-        self.bar = SaveBarInfo(dic['bar'])
+        self.foo = SaveFooInfo(dic["foo"])
+        self.bar = SaveBarInfo(dic["bar"])
 
     def set(self):
         self.foo.set()
@@ -169,8 +169,8 @@ class SaveFooInfo(_ConfMeta):
         self.foo_b = Path()
 
     def set(self):
-        self.foo_a = FileMaker.save(self._dic['foo_A'])
-        self.foo_b = FileMaker.base(self._dic['foo_B'])
+        self.foo_a = FileMaker.save(self._dic["foo_A"])
+        self.foo_b = FileMaker.base(self._dic["foo_B"])
 
 
 class SaveBarInfo(_ConfMeta):
@@ -188,12 +188,11 @@ class SaveBarInfo(_ConfMeta):
         self.bar_b = Path()
 
     def set(self):
-        self.bar_a = FileMaker.save(self._dic['bar_A'])
-        self.bar_b = FileMaker.base(self._dic['bar_B'])
+        self.bar_a = FileMaker.save(self._dic["bar_A"])
+        self.bar_b = FileMaker.base(self._dic["bar_B"])
 
 
 class JsonCmdLineArg:
-
     @staticmethod
     def _get_cmd_line_arg():
         """
@@ -202,7 +201,7 @@ class JsonCmdLineArg:
         try:
             arg = sys.argv[1]
         except IndexError:
-            raise IndexError('Not found command line arguments')
+            raise IndexError("Not found command line arguments")
         except Exception:
             raise Exception
         return arg
@@ -212,12 +211,11 @@ class JsonCmdLineArg:
         """
         :rtype: dict
         """
-        with open(cls._get_cmd_line_arg(), 'r', encoding='utf-8') as j:
+        with open(cls._get_cmd_line_arg(), "r", encoding="utf-8") as j:
             return json.load(j)
 
 
 class FileMaker:
-
     @staticmethod
     def _has_key(dic, *args):
         """
@@ -245,13 +243,13 @@ class FileMaker:
         :type dic: dict
         :rtype: Path
         """
-        cls._has_key(dic, 'path', 'file')
+        cls._has_key(dic, "path", "file")
 
-        p = cls._exists_path(dic['path'])
-        file = p / dic['file']
+        p = cls._exists_path(dic["path"])
+        file = p / dic["file"]
 
         if not file.exists():
-            raise FileNotFoundError(dic['file'])
+            raise FileNotFoundError(dic["file"])
 
         return file
 
@@ -261,9 +259,9 @@ class FileMaker:
         :type dic: dict
         :rtype: list[Path]
         """
-        cls._has_key(dic, 'path', 'pattern')
+        cls._has_key(dic, "path", "pattern")
 
-        p = cls._exists_path(dic['path'])
+        p = cls._exists_path(dic["path"])
         files = [f for f in p.glob(f"**/{dic['pattern']}")]
 
         if not files:
@@ -277,10 +275,10 @@ class FileMaker:
         :type dic: dict
         :rtype: Path
         """
-        cls._has_key(dic, 'path', 'file')
+        cls._has_key(dic, "path", "file")
 
-        p = cls._exists_path(dic['path'])
-        return p / dic['file']
+        p = cls._exists_path(dic["path"])
+        return p / dic["file"]
 
     @classmethod
     def base(cls, dic):
@@ -288,17 +286,17 @@ class FileMaker:
         :type dic: dict
         :rtype: Path
         """
-        cls._has_key(dic, 'path', 'base_name')
+        cls._has_key(dic, "path", "base_name")
 
-        p = cls._exists_path(dic['path'])
-        return p / dic['base_name']
+        p = cls._exists_path(dic["path"])
+        return p / dic["base_name"]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     def _main():
         conf = ConfigLoader()
         conf.load()
         conf.walk()
-
 
     _main()
