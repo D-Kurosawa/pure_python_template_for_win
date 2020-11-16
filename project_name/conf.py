@@ -203,10 +203,10 @@ class FileMaker:
 
 
 if __name__ == "__main__":
+
     def _main():
         conf = ConfigLoader()
         conf.load()
         conf.walk()
-
 
     _main()
