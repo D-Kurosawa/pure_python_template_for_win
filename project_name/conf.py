@@ -1,8 +1,6 @@
 """Load application configure file"""
 import json
 import sys
-from abc import ABCMeta
-from abc import abstractmethod
 from pathlib import Path
 
 from .mypkg import mputil
@@ -10,21 +8,19 @@ from .mypkg import mputil
 
 class ConfigLoader:
     """
-    :type setting: AppSettings
+    :type setting: Setting
     :type loads: AppLoadings
     :type saves: AppSavings
     """
 
     def __init__(self):
         conf = JsonCmdLineArg.load()
-        self.setting = AppSettings(conf["set"])
-        self.loads = AppLoadings(conf["load"])
-        self.saves = AppSavings(conf["save"])
+        self.setting = Setting(conf["set"])
+        self.loads = Loads(conf["load"])
+        self.saves = Saves(conf["save"])
 
     def load(self):
-        self.setting.set()
-        self.loads.set()
-        self.saves.set()
+        pass
 
     def walk(self):
         for key, val in self._walk_generator(self.__dict__):
@@ -45,151 +41,65 @@ class ConfigLoader:
                     yield key + " -> " + child_key, child_val
 
 
-class _ConfMeta(metaclass=ABCMeta):
-    """
-    :type _dic: dict
-    """
-
-    def __init__(self, dic=None):
-        """
-        :type dic: dict | None
-        """
-        if dic is not None:
-            self._dic = dic
-
-    @abstractmethod
-    def set(self):
-        pass
-
-
-class AppSettings(_ConfMeta):
+class Setting:
     """
     :type cpu: int
     """
 
     def __init__(self, dic):
-        """
-        :type dic: dict
-        """
-        super().__init__(dic)
-        self.cpu = 1
-
-    def set(self):
-        self.cpu = mputil.MpCPU(self._dic["cpu"]).get()
+        self.cpu = mputil.MpCPU(dic["cpu"]).get()
 
 
-class AppLoadings(_ConfMeta):
-    """
-    :type foo: LoadingFooInfoSetter
-    :type bar: LoadingBarInfoSetter
-    """
-
+class Loads:
     def __init__(self, dic):
+        self.foo = Loads.Foo(dic["foo"])
+        self.bar = Loads.Bar(dic["bar"])
+
+    class Foo:
         """
-        :type dic: dict
+        :type foo_a: Path
+        :type foo_b: list[Path]
         """
-        super().__init__()
-        self.foo = LoadFooInfo(dic["foo"])
-        self.bar = LoadBarInfo(dic["bar"])
 
-    def set(self):
-        self.foo.set()
-        self.bar.set()
+        def __init__(self, dic):
+            self.foo_a = FileMaker.load(dic["foo_A"])
+            self.foo_b = FileMaker.find(dic["foo_B"])
+
+    class Bar:
+        """
+        :type bar_a: Path
+        :type bar_b: list[Path]
+        """
+
+        def __init__(self, dic):
+            self.bar_a = FileMaker.load(dic["bar_A"])
+            self.bar_b = FileMaker.find(dic["bar_B"])
 
 
-class LoadFooInfo(_ConfMeta):
-    """
-    :type foo_a: Path
-    :type foo_b: list[Path]
-    """
-
+class Saves:
     def __init__(self, dic):
+        self.foo = Saves.Foo(dic["foo"])
+        self.bar = Saves.Bar(dic["bar"])
+
+    class Foo:
         """
-        :type dic: dict
+        :type foo_a: Path
+        :type foo_b: Path
         """
-        super().__init__(dic)
-        self.foo_a = Path()
-        self.foo_b = list()
 
-    def set(self):
-        self.foo_a = FileMaker.load(self._dic["foo_A"])
-        self.foo_b = FileMaker.find(self._dic["foo_B"])
+        def __init__(self, dic):
+            self.foo_a = FileMaker.save(dic["foo_A"])
+            self.foo_b = FileMaker.base(dic["foo_B"])
 
-
-class LoadBarInfo(_ConfMeta):
-    """
-    :type bar_a: Path
-    :type bar_b: list[Path]
-    """
-
-    def __init__(self, dic):
+    class Bar:
         """
-        :type dic: dict
+        :type bar_a: Path
+        :type bar_b: Path
         """
-        super().__init__(dic)
-        self.bar_a = Path()
-        self.bar_b = list()
 
-    def set(self):
-        self.bar_a = FileMaker.load(self._dic["bar_A"])
-        self.bar_b = FileMaker.find(self._dic["bar_B"])
-
-
-class AppSavings(_ConfMeta):
-    """
-    :type foo: SaveFooInfo
-    :type bar: SaveBarInfo
-    """
-
-    def __init__(self, dic):
-        """
-        :type dic: dict
-        """
-        super().__init__()
-        self.foo = SaveFooInfo(dic["foo"])
-        self.bar = SaveBarInfo(dic["bar"])
-
-    def set(self):
-        self.foo.set()
-        self.bar.set()
-
-
-class SaveFooInfo(_ConfMeta):
-    """
-    :type foo_a: Path
-    :type foo_b: Path
-    """
-
-    def __init__(self, dic):
-        """
-        :type dic: dict
-        """
-        super().__init__(dic)
-        self.foo_a = Path()
-        self.foo_b = Path()
-
-    def set(self):
-        self.foo_a = FileMaker.save(self._dic["foo_A"])
-        self.foo_b = FileMaker.base(self._dic["foo_B"])
-
-
-class SaveBarInfo(_ConfMeta):
-    """
-    :type bar_a: Path
-    :type bar_b: Path
-    """
-
-    def __init__(self, dic):
-        """
-        :type dic: dict
-        """
-        super().__init__(dic)
-        self.bar_a = Path()
-        self.bar_b = Path()
-
-    def set(self):
-        self.bar_a = FileMaker.save(self._dic["bar_A"])
-        self.bar_b = FileMaker.base(self._dic["bar_B"])
+        def __init__(self, dic):
+            self.bar_a = FileMaker.save(dic["bar_A"])
+            self.bar_b = FileMaker.base(dic["bar_B"])
 
 
 class JsonCmdLineArg:
@@ -293,10 +203,10 @@ class FileMaker:
 
 
 if __name__ == "__main__":
-
     def _main():
         conf = ConfigLoader()
         conf.load()
         conf.walk()
+
 
     _main()
