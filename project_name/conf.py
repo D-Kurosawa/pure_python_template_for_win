@@ -9,8 +9,8 @@ from .mypkg import mputil
 class ConfigLoader:
     """
     :type setting: Setting
-    :type loads: AppLoadings
-    :type saves: AppSavings
+    :type loads: Loads
+    :type saves: Saves
     """
 
     def __init__(self):
@@ -51,6 +51,11 @@ class Setting:
 
 
 class Loads:
+    """
+    :type foo: Loads.Foo
+    :type bar: Loads.Bar
+    """
+
     def __init__(self, dic):
         self.foo = Loads.Foo(dic["foo"])
         self.bar = Loads.Bar(dic["bar"])
@@ -77,6 +82,10 @@ class Loads:
 
 
 class Saves:
+    """
+    :type foo: Saves.Foo
+    :type bar: Saves.Bar
+
     def __init__(self, dic):
         self.foo = Saves.Foo(dic["foo"])
         self.bar = Saves.Bar(dic["bar"])
