@@ -1,29 +1,24 @@
 """Multi process utility"""
 import os
+from typing import Tuple
+from typing import Union
 
 
 class MpCPU:
-    """Get number of CPU used by multi process
+    """Get number of CPU used by multi process"""
 
-    :type _cpu: int | str | None
-    :type _max_cpu: int
-    :type _min_cpu: int
-    :type _character_pattern: tuple of str
-    """
+    _cpu: Union[int, str, None]
+    _max_cpu: int
+    _min_cpu: int
+    _character_pattern: Tuple[str, ...]
 
-    def __init__(self, cpu=None):
-        """
-        :type cpu: int | str | None
-        """
+    def __init__(self, cpu: Union[int, str, None] = None):
         self._cpu = cpu
         self._max_cpu = os.cpu_count()
         self._min_cpu = 1
         self._character_pattern = ("max", "min", "mid", "1/4", "1/2", "3/4", "auto")
 
-    def get(self):
-        """
-        :rtype int
-        """
+    def get(self) -> int:
         if self._cpu is None:
             return self._max_cpu - 1
 
@@ -35,7 +30,7 @@ class MpCPU:
 
         raise TypeError(f"{type(self._cpu)} : Not int or str")
 
-    def _int_process(self):
+    def _int_process(self) -> int:
         if self._cpu > self._max_cpu:
             return self._max_cpu
 
@@ -44,7 +39,7 @@ class MpCPU:
 
         return self._cpu
 
-    def _str_process(self):
+    def _str_process(self) -> int:
         if self._cpu.lower() not in self._character_pattern:
             raise KeyError(f"{self._cpu} not in {self._character_pattern}")
 
@@ -73,11 +68,7 @@ class MpCPU:
 
         return self._max_cpu - 1
 
-    def _get_cpu_number(self, num):
-        """
-        :type num: int
-        :rtype: int
-        """
+    def _get_cpu_number(self, num: int) -> int:
         if self._min_cpu > num:
             return self._min_cpu
         else:

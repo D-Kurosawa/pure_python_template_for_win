@@ -50,7 +50,7 @@ def load(file: Union[str, Path]) -> Any:
 
 def dump(
     obj: Any, file: Union[str, Path], compress: bool = True, compress_level: int = 1
-) -> None:
+):
     if compress:
         with bz2.BZ2File(file, "wb", compresslevel=compress_level) as f:
             f.write(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
