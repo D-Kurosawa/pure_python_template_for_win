@@ -4,8 +4,8 @@ compress:   convert pickle to bz2
 decompress: convert bz2 to pickle
 """
 import bz2
-import pathlib
 import pickle
+from pathlib import Path
 
 
 def loads(compress_obj):
@@ -30,7 +30,7 @@ def dumps(obj, compress_level=1, compress=True):
 
 
 def load(file_name):
-    if not pathlib.Path(file_name).exists():
+    if not Path(file_name).exists():
         raise FileNotFoundError(file_name)
 
     try:
