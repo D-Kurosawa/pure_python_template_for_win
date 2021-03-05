@@ -6,9 +6,10 @@ decompress: convert bz2 to pickle
 import bz2
 import pickle
 from pathlib import Path
+from typing import Any
 
 
-def loads(compress_obj):
+def loads(compress_obj: Any) -> Any:
     try:
         decompress = bz2.decompress(compress_obj)
     except OSError:
