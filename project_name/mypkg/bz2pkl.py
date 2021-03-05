@@ -21,7 +21,7 @@ def loads(compress_obj: Any) -> Any:
         return pickle.loads(decompress)
 
 
-def dumps(obj, compress_level=1, compress=True):
+def dumps(obj: Any, compress: bool = True, compress_level: int = 1) -> Any:
     pkl = pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL)
 
     if compress:
