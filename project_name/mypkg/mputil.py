@@ -1,5 +1,6 @@
 """Multi process utility"""
 import os
+from typing import ClassVar
 from typing import Tuple
 from typing import Union
 
@@ -76,12 +77,10 @@ class MpCPU:
 
 
 class MpCounter:
-    """Get number of process by multi process
+    """Get number of process by multi process"""
 
-    :type num: int
-    """
-
-    _mp_count = 0
+    _mp_count: ClassVar[int] = 0
+    num: int
 
     def __init__(self):
         MpCounter.count_up()
