@@ -1,6 +1,7 @@
 """Multi process utility"""
 import os
 from typing import ClassVar
+from typing import Optional
 from typing import Tuple
 from typing import Union
 
@@ -98,12 +99,16 @@ class MpCounter:
 class MpLines:
     """Multi process information lines"""
 
-    def __init__(self, process_num=None, cpu_num=None, name=None):
-        """
-        :type process_num: int | None
-        :type cpu_num: int | None
-        :type name: str | None
-        """
+    _process = Optional[int]
+    _cpu = Optional[int]
+    _name = Optional[str]
+
+    def __init__(
+        self,
+        process_num: Optional[int] = None,
+        cpu_num: Optional[int] = None,
+        name: Optional[str] = None,
+    ):
         self._process = process_num
         self._cpu = cpu_num
         self._name = name
@@ -128,10 +133,7 @@ class MpLines:
 
         print(f"{'*' * 60}\n")
 
-    def _print_name(self, message):
-        """
-        :type message: str
-        """
+    def _print_name(self, message: str):
         if self._name is None:
             print(f"<Multi process {message}>")
         else:
