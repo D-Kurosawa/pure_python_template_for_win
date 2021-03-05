@@ -85,6 +85,7 @@ class Saves:
     """
     :type foo: Saves.Foo
     :type bar: Saves.Bar
+    """
 
     def __init__(self, dic):
         self.foo = Saves.Foo(dic["foo"])
