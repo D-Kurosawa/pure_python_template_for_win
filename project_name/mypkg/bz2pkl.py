@@ -48,12 +48,14 @@ def load(file: Union[str, Path]) -> Any:
         return pickle.loads(pkl)
 
 
-def dump(obj, file_name, compress_level=1, compress=True):
+def dump(
+    obj: Any, file: Union[str, Path], compress: bool = True, compress_level: int = 1
+) -> None:
     if compress:
-        with bz2.BZ2File(file_name, "wb", compresslevel=compress_level) as f:
+        with bz2.BZ2File(file, "wb", compresslevel=compress_level) as f:
             f.write(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
     else:
-        with open(file_name, "wb") as f:
+        with open(file, "wb") as f:
             pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
