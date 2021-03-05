@@ -7,6 +7,7 @@ import bz2
 import pickle
 from pathlib import Path
 from typing import Any
+from typing import Union
 
 
 def loads(compress_obj: Any) -> Any:
@@ -30,19 +31,19 @@ def dumps(obj: Any, compress: bool = True, compress_level: int = 1) -> Any:
         return pkl
 
 
-def load(file_name):
-    if not Path(file_name).exists():
-        raise FileNotFoundError(file_name)
+def load(file: Union[str, Path]) -> Any:
+    if not Path(file).exists():
+        raise FileNotFoundError(file)
 
     try:
-        with bz2.BZ2File(file_name, "rb") as f:
+        with bz2.BZ2File(file, "rb") as f:
             pkl = f.read()
     except OSError:
         try:
-            with open(file_name, "rb") as f:
+            with open(file, "rb") as f:
                 return pickle.load(f)
         except Exception:
-            raise IOError(f"file <{file_name}> can not read to pickle object")
+            raise IOError(f"file <{file}> can not read to pickle object")
     else:
         return pickle.loads(pkl)
 
