@@ -102,10 +102,7 @@ class Saves:
 
 class JsonCmdLineArg:
     @staticmethod
-    def _get_cmd_line_arg():
-        """
-        :rtype: str
-        """
+    def _get_cmd_line_arg() -> str:
         try:
             arg = sys.argv[1]
         except IndexError:
@@ -115,10 +112,7 @@ class JsonCmdLineArg:
         return arg
 
     @classmethod
-    def load(cls):
-        """
-        :rtype: dict
-        """
+    def load(cls) -> Dict[str, Any]:
         with open(cls._get_cmd_line_arg(), "r", encoding="utf-8") as j:
             return json.load(j)
 
