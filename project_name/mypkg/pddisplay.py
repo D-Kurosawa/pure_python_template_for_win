@@ -22,8 +22,8 @@ class PandasDisplay:
     """Customize display"""
 
     @staticmethod
-    def custom():
-        obj = Customs()
+    def custom(**kwargs):
+        obj = Customs(**kwargs)
 
         pd.options.display.min_rows = obj.min_rows
         pd.options.display.max_rows = obj.max_rows
