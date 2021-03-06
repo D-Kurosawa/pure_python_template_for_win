@@ -119,20 +119,13 @@ class JsonCmdLineArg:
 
 class FileMaker:
     @staticmethod
-    def _has_key(dic, *args):
-        """
-        :type dic: dict
-        """
+    def _has_key(dic: Dict[str, Any], *args: str):
         for arg in args:
             if arg not in dic:
                 raise KeyError(f"Not in key : {arg}")
 
     @staticmethod
-    def _exists_path(path):
-        """
-        :type path: str
-        :rtype: Path
-        """
+    def _exists_path(path: str) -> Path:
         p = Path(path)
         if not p.exists():
             raise FileNotFoundError(path)
@@ -140,11 +133,7 @@ class FileMaker:
         return p
 
     @classmethod
-    def load(cls, dic):
-        """
-        :type dic: dict
-        :rtype: Path
-        """
+    def load(cls, dic: Dict[str, Any]) -> Path:
         cls._has_key(dic, "path", "file")
 
         p = cls._exists_path(dic["path"])
@@ -156,11 +145,7 @@ class FileMaker:
         return file
 
     @classmethod
-    def find(cls, dic):
-        """
-        :type dic: dict
-        :rtype: list[Path]
-        """
+    def find(cls, dic: Dict[str, Any]) -> List[Path]:
         cls._has_key(dic, "path", "pattern")
 
         p = cls._exists_path(dic["path"])
@@ -172,22 +157,14 @@ class FileMaker:
         return files
 
     @classmethod
-    def save(cls, dic):
-        """
-        :type dic: dict
-        :rtype: Path
-        """
+    def save(cls, dic: Dict[str, Any]) -> Path:
         cls._has_key(dic, "path", "file")
 
         p = cls._exists_path(dic["path"])
         return p / dic["file"]
 
     @classmethod
-    def base(cls, dic):
-        """
-        :type dic: dict
-        :rtype: Path
-        """
+    def base(cls, dic: Dict[str, Any]) -> Path:
         cls._has_key(dic, "path", "base_name")
 
         p = cls._exists_path(dic["path"])
