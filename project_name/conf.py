@@ -77,30 +77,24 @@ class Loads:
 
 
 class Saves:
-    """
-    :type foo: Saves.Foo
-    :type bar: Saves.Bar
-    """
+    foo: Saves.Foo
+    bar: Saves.Bar
 
     def __init__(self, dic):
         self.foo = Saves.Foo(dic["foo"])
         self.bar = Saves.Bar(dic["bar"])
 
     class Foo:
-        """
-        :type foo_a: Path
-        :type foo_b: Path
-        """
+        foo_a: Path
+        foo_b: Path
 
         def __init__(self, dic):
             self.foo_a = FileMaker.save(dic["foo_A"])
             self.foo_b = FileMaker.base(dic["foo_B"])
 
     class Bar:
-        """
-        :type bar_a: Path
-        :type bar_b: Path
-        """
+        bar_a: Path
+        bar_b: Path
 
         def __init__(self, dic):
             self.bar_a = FileMaker.save(dic["bar_A"])
