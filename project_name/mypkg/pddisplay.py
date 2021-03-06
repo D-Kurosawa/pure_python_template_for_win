@@ -18,18 +18,15 @@ class Customs:
     float_format: Optional[int] = None  # 有効数字（有効桁数）
 
 
-class PandasDisplay:
-    """Customize display"""
+def custom(**kwargs):
+    """Customize Pandas display"""
+    obj = Customs(**kwargs)
 
-    @staticmethod
-    def custom():
-        obj = Customs()
-
-        pd.options.display.min_rows = obj.min_rows
-        pd.options.display.max_rows = obj.max_rows
-        pd.options.display.max_columns = obj.max_columns
-        pd.options.display.width = obj.width
-        pd.options.display.show_dimensions = obj.show_dimensions
+    pd.options.display.min_rows = obj.min_rows
+    pd.options.display.max_rows = obj.max_rows
+    pd.options.display.max_columns = obj.max_columns
+    pd.options.display.width = obj.width
+    pd.options.display.show_dimensions = obj.show_dimensions
 
 
 if __name__ == "__main__":
