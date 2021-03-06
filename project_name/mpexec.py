@@ -1,21 +1,20 @@
 """Execute multi process"""
 import multiprocessing as mp
 import os
+from typing import Any
+from typing import Generator
+from typing import Iterable
+from typing import Tuple
 
 from .conf import ConfigLoader
 from .mypkg import mputil
 
 
 class MpExec:
-    """
-    :type _conf: ConfigLoader
-    :type _lines: mputil.MpLines
-    """
+    _conf: ConfigLoader
+    _lines: mputil.MpLines
 
-    def __init__(self, conf):
-        """
-        :type conf: ConfigLoader
-        """
+    def __init__(self, conf: ConfigLoader):
         self._conf = conf
         self._lines = mputil.MpLines()
 
@@ -29,14 +28,14 @@ class MpExec:
         self._lines.bottom()
         self._is_success(result)
 
-    def _arguments(self):
+    def _arguments(self) -> Generator[Tuple[int, int], None, None]:
         foo = range(10)
         guide = len(foo) // self._conf.setting.cpu
 
         for f in foo:
             yield f, guide
 
-    def _worker(self, foo, guide):
+    def _worker(self, foo, guide) -> bool:
         print(
             f">>\t\tpid:{os.getpid():>6}{mputil.MpCounter().num:>5}/"
             f"{guide}\t\t*****EXAMPLE***** : {foo}"
@@ -47,11 +46,11 @@ class MpExec:
 
         return True
 
-    def _wrapper(self, args):
+    def _wrapper(self, args: Tuple[Any, ...]) -> bool:
         return self._worker(*args)
 
     @staticmethod
-    def _is_success(result):
+    def _is_success(result: Iterable[bool]):
         if not all(result):
             raise Exception("Multiprocessing return error")
 

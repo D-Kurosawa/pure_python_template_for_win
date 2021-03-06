@@ -4,11 +4,13 @@ compress:   convert pickle to bz2
 decompress: convert bz2 to pickle
 """
 import bz2
-import pathlib
 import pickle
+from pathlib import Path
+from typing import Any
+from typing import Union
 
 
-def loads(compress_obj):
+def loads(compress_obj: Any) -> Any:
     try:
         decompress = bz2.decompress(compress_obj)
     except OSError:
@@ -20,7 +22,7 @@ def loads(compress_obj):
         return pickle.loads(decompress)
 
 
-def dumps(obj, compress_level=1, compress=True):
+def dumps(obj: Any, compress: bool = True, compress_level: int = 1) -> Any:
     pkl = pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL)
 
     if compress:
@@ -29,29 +31,31 @@ def dumps(obj, compress_level=1, compress=True):
         return pkl
 
 
-def load(file_name):
-    if not pathlib.Path(file_name).exists():
-        raise FileNotFoundError(file_name)
+def load(file: Union[str, Path]) -> Any:
+    if not Path(file).exists():
+        raise FileNotFoundError(file)
 
     try:
-        with bz2.BZ2File(file_name, "rb") as f:
+        with bz2.BZ2File(file, "rb") as f:
             pkl = f.read()
     except OSError:
         try:
-            with open(file_name, "rb") as f:
+            with open(file, "rb") as f:
                 return pickle.load(f)
         except Exception:
-            raise IOError(f"file <{file_name}> can not read to pickle object")
+            raise IOError(f"file <{file}> can not read to pickle object")
     else:
         return pickle.loads(pkl)
 
 
-def dump(obj, file_name, compress_level=1, compress=True):
+def dump(
+    obj: Any, file: Union[str, Path], compress: bool = True, compress_level: int = 1
+):
     if compress:
-        with bz2.BZ2File(file_name, "wb", compresslevel=compress_level) as f:
+        with bz2.BZ2File(file, "wb", compresslevel=compress_level) as f:
             f.write(pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL))
     else:
-        with open(file_name, "wb") as f:
+        with open(file, "wb") as f:
             pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
