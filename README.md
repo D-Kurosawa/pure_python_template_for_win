@@ -1,3 +1,7 @@
+# Project Template
+
+---
+
 # 〇〇をするアプリケーション
 
 ## 概要
@@ -16,6 +20,6 @@
 
 - [conda requirement](requirements/requirements_conda.txt)
 - [pip requirement](requirements/requirements_pip.txt)
-- python: 3.x.0以上
+- python: 3.8.0以上
 
 バージョン指定のないものは適宜依存関係を満たすバージョン
