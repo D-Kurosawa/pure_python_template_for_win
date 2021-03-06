@@ -4,17 +4,19 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from typing import Any
+from typing import Dict
+from typing import Generator
 from typing import List
+from typing import Tuple
 
 from .mypkg import mputil
 
 
 class ConfigLoader:
-    """
-    :type setting: Setting
-    :type loads: Loads
-    :type saves: Saves
-    """
+    setting: Setting
+    loads: Loads
+    saves: Saves
 
     def __init__(self):
         conf = JsonCmdLineArg.load()
@@ -26,21 +28,18 @@ class ConfigLoader:
         pass
 
     def walk(self):
-        for key, val in self._walk_generator(self.__dict__):
+        for key, val in self._walk_gen(self.__dict__):
             print(f"{key:<40}: {val}")
 
-    def _walk_generator(self, dic):
-        """
-        :type dic: dict
-        """
+    def _walk_gen(self, dic: Dict[str, Any]) -> Generator[Tuple[str, Any], None, None]:
         for key, val in dic.items():
             yield key, val
             try:
-                nest_value = val.__dict__  # type: dict
+                nest_value: Dict[str, Any] = val.__dict__
             except AttributeError:
                 pass
             else:
-                for child_key, child_val in self._walk_generator(nest_value):
+                for child_key, child_val in self._walk_gen(nest_value):
                     yield key + " -> " + child_key, child_val
 
 
