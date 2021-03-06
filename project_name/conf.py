@@ -44,9 +44,7 @@ class ConfigLoader:
 
 
 class Setting:
-    """
-    :type cpu: int
-    """
+    cpu: int
 
     def __init__(self, dic):
         self.cpu = mputil.MpCPU(dic["cpu"]).get()
