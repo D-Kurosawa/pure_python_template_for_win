@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from typing import List
 
 from .mypkg import mputil
 
@@ -51,30 +52,24 @@ class Setting:
 
 
 class Loads:
-    """
-    :type foo: Loads.Foo
-    :type bar: Loads.Bar
-    """
+    foo: Loads.Foo
+    bar: Loads.Bar
 
     def __init__(self, dic):
         self.foo = Loads.Foo(dic["foo"])
         self.bar = Loads.Bar(dic["bar"])
 
     class Foo:
-        """
-        :type foo_a: Path
-        :type foo_b: list[Path]
-        """
+        foo_a: Path
+        foo_b: List[Path]
 
         def __init__(self, dic):
             self.foo_a = FileMaker.load(dic["foo_A"])
             self.foo_b = FileMaker.find(dic["foo_B"])
 
     class Bar:
-        """
-        :type bar_a: Path
-        :type bar_b: list[Path]
-        """
+        bar_a: Path
+        bar_b: List[Path]
 
         def __init__(self, dic):
             self.bar_a = FileMaker.load(dic["bar_A"])
